@@ -1,5 +1,6 @@
 name: Node.js CI
 
+# Events that triggers the workflow
 on:
   push:
     branches: [main]
@@ -16,9 +17,9 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2 #first we need to checkout the repository
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v2 #define your environment for javascript
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
@@ -38,10 +39,13 @@ jobs:
             machine api.heroku.com
               login $HEROKU_EMAIL
               password $HEROKU_API_KEY
+              appname $HEROKU_APP_NAME
             machine git.heroku.com
               login $HEROKU_EMAIL
               password $HEROKU_API_KEY
+              appname $HEROKU_APP_NAME
           EOF
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
